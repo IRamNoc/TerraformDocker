@@ -1,5 +1,5 @@
-# destroy.sh
-# Détruire l'infrastructure Terraform
+MY_PATH=$(pwd)
+cd "$MY_PATH/infra/"
+terraform destroy -auto-approve 
 
-cd infra
-terraform destroy -auto-approve
+cd "$MY_PATH"

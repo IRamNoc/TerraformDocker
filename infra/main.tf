@@ -1,16 +1,30 @@
+terraform {
+    required_providers {
+        docker = {
+        source = "kreuzwerker/docker"
+        version = "3.0.2"
+        }
+    }
+}
+
 provider "docker" {
-  host = "tcp://localhost:2375"
+    host = "unix:///var/run/docker.sock"
 }
 
 resource "docker_image" "build" {
-  name         = "nom_de_votre_image"
-  build {
-    context    = "../app"  # Chemin vers le répertoire contenant le Dockerfile
-    dockerfile = "../app/Dockerfile"
-  }
+    name  = "tp_terraform:latest"
+    build {
+        context = "../app"
+        dockerfile = "Dockerfile"
+    }
 }
 
 resource "docker_container" "container" {
-  name  = "nom_de_votre_container"
-  image = docker_image.build.name
+    name  = "TpTerraform"
+    image = docker_image.build.name
+    ports {
+        internal = 8000 
+        external = 8000 
+    }
+
 }
